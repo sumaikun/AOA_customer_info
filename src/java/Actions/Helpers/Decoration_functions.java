@@ -17,7 +17,7 @@ import java.util.Locale;
 public class Decoration_functions {
     public static String convert_date_spanish(String the_date)
     {
-        System.out.println("Entro a la función "+the_date);
+        //System.out.println("Entro a la función "+the_date);
         Locale esLocale = new Locale("es", "ES");//para trabajar en español
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         dtf = dtf.withLocale(esLocale);  // Locale specifies human language for translating, and cultural norms for lowercase/uppercase and abbreviations and such. Example: Locale.US or Locale.CANADA_FRENCH

@@ -18,5 +18,7 @@
 <c:if test="${ Siniestro.get('renta') == 0 }">
     <jsp:include page="layout/subviews/Info_siniestro/Siniester_table.jsp" />
 </c:if>
+
+<jsp:include page="layout/subviews/Info_siniestro/state.jsp" />
   
 <jsp:include page="layout/footer.jsp" />
