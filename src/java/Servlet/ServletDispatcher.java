@@ -29,7 +29,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-@WebServlet(urlPatterns = {"/login", "/test","/User","/get_user_info","/get_by_code","/get_ciudades","/user_data","/Warranty_info","/credit_warranty","/devol_data"})
+@WebServlet(urlPatterns = {"/login", "/test","/User","/get_user_info","/get_by_code","/get_ciudades","/user_data","/Warranty_info","/credit_warranty","/devol_data","/consignment_warranty","/risk_warranty","/logout"})
 public class ServletDispatcher extends HttpServlet
 {
     private SiniestroInfoController siniestrosinfocontroller ;
@@ -100,13 +100,61 @@ public class ServletDispatcher extends HttpServlet
         
         if (servletPath.equals("/credit_warranty")) {           
             try {
-                this.warrantycontroller.credit_warranty(request,response,session);
+                try {
+                    try {
+                        this.warrantycontroller.credit_warranty(request,response,session);
+                    } catch (NoSuchFieldException ex) {
+                        Logger.getLogger(ServletDispatcher.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                } catch (NoSuchMethodException ex) {
+                    Logger.getLogger(ServletDispatcher.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IllegalAccessException ex) {
+                    Logger.getLogger(ServletDispatcher.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IllegalArgumentException ex) {
+                    Logger.getLogger(ServletDispatcher.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (InvocationTargetException ex) {
+                    Logger.getLogger(ServletDispatcher.class.getName()).log(Level.SEVERE, null, ex);
+                }
             } catch (SQLException ex) {
                 Logger.getLogger(ServletDispatcher.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         
+        if (servletPath.equals("/consignment_warranty")) { 
+            try {
+                this.warrantycontroller.consignment_warranty(request,response,session);
+            } catch (SQLException ex) {
+                Logger.getLogger(ServletDispatcher.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (NoSuchMethodException ex) {
+                Logger.getLogger(ServletDispatcher.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IllegalAccessException ex) {
+                Logger.getLogger(ServletDispatcher.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IllegalArgumentException ex) {
+                Logger.getLogger(ServletDispatcher.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (InvocationTargetException ex) {
+                Logger.getLogger(ServletDispatcher.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (NoSuchFieldException ex) {
+                Logger.getLogger(ServletDispatcher.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         
+        if (servletPath.equals("/risk_warranty")) { 
+            try {
+                this.warrantycontroller.risk_warranty(request,response,session);
+            } catch (SQLException ex) {
+                Logger.getLogger(ServletDispatcher.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (NoSuchMethodException ex) {
+                Logger.getLogger(ServletDispatcher.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IllegalAccessException ex) {
+                Logger.getLogger(ServletDispatcher.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IllegalArgumentException ex) {
+                Logger.getLogger(ServletDispatcher.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (InvocationTargetException ex) {
+                Logger.getLogger(ServletDispatcher.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (NoSuchFieldException ex) {
+                Logger.getLogger(ServletDispatcher.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         
                 
               
@@ -119,8 +167,13 @@ public class ServletDispatcher extends HttpServlet
         HttpSession session = request.getSession();        
         session.setAttribute("error_message",null);         
         String servletPath = request.getServletPath();
-        
+        System.out.println(servletPath);
         if (servletPath.equals("/User")) {
+            if(null == session.getAttribute("Siniestro")){                
+                System.out.println("session  nula");
+                response.sendRedirect("index.jsp");
+                return;
+            }
             try {
                 //System.out.println("Servlet de usuario");
                 this.usercontroller.Userinfo(request, response, session);
@@ -130,12 +183,24 @@ public class ServletDispatcher extends HttpServlet
         }
         
         if (servletPath.equals("/Warranty_info")) {
+            if(null == session.getAttribute("Siniestro")){                
+                System.out.println("session  nula");
+                response.sendRedirect("index.jsp");
+                return;
+            }
+           
             try {
                 this.warrantycontroller.warranty_info(request, response, session);
             } catch (SQLException ex) {
                 Logger.getLogger(ServletDispatcher.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        if (servletPath.equals("/logout")) {
+           session.invalidate();
+           response.sendRedirect("index.jsp");
+        }
+     
+        
         
     }
 }

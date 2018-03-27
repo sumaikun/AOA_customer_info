@@ -38,11 +38,13 @@ public class SiniestroInfoController {
     public SiniestroInfoController()
     {
        this.manager = new SQLMANAGER();
+      
+      
     }
     
     public void login(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws IOException, ServletException 
     {
-        
+      
         String placa = request.getParameter("placa");
         String celular = request.getParameter("celphone");
         String query = "Select * from siniestro where placa like '"+placa+"' and declarante_celular = '"+celular+"'";

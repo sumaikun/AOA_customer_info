@@ -6,9 +6,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:include page="layout/header.jsp" />
+<meta http-equiv='cache-control' content='no-cache'>
+<meta http-equiv='expires' content='0'>
+<meta http-equiv='pragma' content='no-cache'>
 
-<div class="container" ng-app="Appi" ng-controller="WaController" >
-    <c:if test="${ Siniestro.get('no_garantia') == 0 }">
+<div class="container" ng-app="Appi"  >
+    <div id="angular-div" ng-controller="WaController" >
+    <c:if test="${ Siniestro.get('no_garantia') == 0 && options == 'open' }">
         <div class="row">
             <div class="col-lg-12">                 
                 <div class="intro-text">     
@@ -27,7 +31,7 @@
                 <div ng-init="garantia_credito()" class="col-lg-4 col-md-4"><button data-toggle="modal" data-target="#myModal3" class="btn btn-primary btn-lg">Todo riesgo no reembolsable</button></div>       
             </c:if>    
         </div>
-    </c:if>
+    
     <div class="row">
         <div class="col-lg-12">                 
             <div class="intro-text">
@@ -51,7 +55,7 @@
                     <div class="col-sm-9">
                       <select name="devol_tipo_cuenta" ng-model="warranty.devol_tipo_cuenta" class="form-control" id="tipo">
                             <option value="">Selecciona</option>
-                            <option value="A">Ahoros</option>
+                            <option value="A">Ahorros</option>
                             <option value="C">Corriente</option>
                      </select>
                     </div>
@@ -115,6 +119,8 @@
         </form>
         </div>  
     </div>
+    </c:if>
+    
     <div class="row">
         <div class="col-lg-12">                 
             <div class="intro-text">
@@ -127,15 +133,31 @@
             Señor Usuario, Si desea puede adjuntar aqui las imágenes escaneadas de sus documentos para agilizar aún mas la gestión de la cita de la entrega de su vehículo.
 						Estas imágenes no son obligatorias.
             <table border cellspacing='0'>
-                    <tr><td height='100' width='200'>Licencia de Conducción (frente)</td><td><input type='file' name='img_licencia_conduccion_frente'></td></tr>
-                    <tr><td height='100' width='200'>Licencia de Conducción (reverso)</td><td><input type='file' name='img_licencia_conduccion_reverso'></td></tr>
-                    <tr><td height='100' width='200'>Cédula de Ciudadanía (frente)</td><td><input type='file' name='img_cedula_ciudadania_frente'></td></tr>
-                    <tr><td height='100' width='200'>Cédula de Ciudadanía (reverso)</td><td><input type='file' name='img_cedula_ciudadania_reverso'></td></tr>
+                    <tr>
+                        <td height='100' width='200'>Licencia de Conducción (frente)</td>
+                        <td><input data-file-Model  type='file'  name="img_licencia_conduccion_frente" ></td>
+                        <td id="licenciaA"></td>
+                    </tr>
+                    <tr>
+                        <td height='100' width='200'>Licencia de Conducción (reverso)</td>
+                        <td><input data-file-Model type='file' onchange="get_images()" name='img_licencia_conduccion_reverso'></td>
+                        <td id="licenciaB"></td>
+                    </tr>
+                    <tr>
+                        <td height='100' width='200'>Cédula de Ciudadanía (frente)</td>
+                        <td><input data-file-Model type='file' onchange="get_images()" name='img_cedula_ciudadania_frente'></td>
+                        <td id="cedulaA"></td>
+                    </tr>
+                    <tr>
+                        <td height='100' width='200'>Cédula de Ciudadanía (reverso)</td>
+                        <td><input data-file-Model type='file' onchange="get_images()" name='img_cedula_ciudadania_reverso'></td>
+                        <td id="cedulaB"></td>
+                    </tr>
             </table>
         </div>
     </div>
     
-    
+    <c:if test="${ Siniestro.get('no_garantia') == 0 && options == 'open' }">
         <!-- Modal -->
      <div id="myModal" data-backdrop="static" class="modal fade" role="dialog">
        <div class="modal-dialog">
@@ -257,12 +279,12 @@
                  </div>
                  <img class="pull-right" src="http://www.domyownpestcontrol.com/images/securitycode.jpg" alt="Smiley face" height="150" width="150" style="margin-top:-110px;">
                  <div class="form-group col-sm-3">
-                     <input  type="submit" class="btn btn-success" ng-click="verifywarranty('credito')"  value="Registrar">
+                     <input  type="submit" class="btn btn-success" ng-click="verifywarranty('credito')"  value="Realizar garantia por tarjeta credito">
                  </div>
              </form>		  		 
            </div>
            <div class="modal-footer">      	
-             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+             <button type="button" class="btn btn-default" data-dismiss="modal">cerrar</button>
            </div>
          </div>
        </div>
@@ -293,16 +315,16 @@
                  <div class="form-group">
                      <label class="col-sm-3 control-label" for="card-number">Fecha de consignación</label>
                          <div class="col-sm-9">
-                             <input class="form-control" name="fecha_consignacion" ng-model="warranty.fecha_consignacion" id="fecha1" type="date">
+                             <input class="form-control" datetime="yyyy-MM-dd" name="fecha_consignacion" ng-model="warranty.fecha_consignacion" id="fecha1" type="date">
                          </div>
                  </div>
                  <div class="form-group col-sm-3">
-                     <button type="submit" class="btn btn-submit" ng-click="Verify_warranty('efectivo')">Registrar</button>
+                     <button type="submit" class="btn btn-submit" ng-click="verifywarranty('efectivo')">Realizar garantia por consignación</button>
                  </div>
              </form>		  
            </div>
            <div class="modal-footer">      	
-             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+             <button type="button" class="btn btn-default" data-dismiss="modal">cerrar</button>
            </div>
          </div>
 
@@ -335,28 +357,25 @@
                  <div class="form-group">
                      <label class="col-sm-3 control-label" for="card-number">Fecha de consignación</label>
                      <div class="col-sm-9">
-                         <input class="form-control" id="fecha2" ng-model="warranty.riesgo_fecha" name="riesgo_fecha" type="date">
+                         <input class="form-control" datetime="yyyy-MM-dd" id="fecha2" ng-model="warranty.riesgo_fecha" name="riesgo_fecha" type="date">
                      </div>
                  </div>
                  <div class="form-group col-sm-3">
-                     <button type="submit" class="btn btn-submit" onclick="Verify_warranty('riesgo')">Registrar</button>
+                     <button type="submit" class="btn btn-submit" ng-click="verifywarranty('riesgo')">Realizar garantia todo riesgo</button>
                  </div>
              </form>
            </div>
            <div class="modal-footer">      	
-             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+             <button type="button" class="btn btn-default" data-dismiss="modal">cerrar</button>
            </div>
          </div>
 
        </div>
      </div>    
-    
+    </c:if>
+<div ng-init="get_images()"></div>
+    </div>
 </div>
 
-
-  
-
-
-
-      
+<input type="hidden" name="idsiniestro" value="${Siniestro.get('id')}"/>             
 <jsp:include page="layout/footer.jsp" />

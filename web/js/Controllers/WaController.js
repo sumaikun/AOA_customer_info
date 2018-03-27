@@ -1,7 +1,11 @@
-app.controller('WaController',['$scope','WaService','$window',function($scope,WaService,$window){
+WaController = app.controller('WaController',['$scope','WaService','$window',function($scope,WaService,$window){
 	
 	$scope.current_chart = {} ;
-
+        
+        $scope.ufile = {} ;
+        
+        $scope.siniestro = {};
+        
 	$scope.title = 'Demo';
         
         $scope.type_warranty = "";
@@ -22,6 +26,46 @@ app.controller('WaController',['$scope','WaService','$window',function($scope,Wa
         
         $scope.datos_devoluciones = function(){
             //alert("working");
+        }
+        
+        $scope.erase_img = function()
+        {
+            console.log("borrar imagenes");
+            $('#img_licenciaA').remove();
+            $('#img_licenciaB').remove();
+            $('#img_cedulaA').remove();
+            $('#img_cedulaB').remove();
+         
+            
+            $scope.get_images();
+          
+            
+        }
+        
+        $scope.get_images = function()
+        {
+            $scope.siniestro.sid = $("input[name='idsiniestro']").val();
+            console.log("get_images");
+            var request = WaService.get_images($scope.siniestro);
+            request.then(function(response){
+                console.log(response);
+                if(response.data.licenciaA != null)
+                {
+                    $("#licenciaA").html("<img style='width:50%;  height:50%;' id='img_licenciaA' src='http://app.aoacolombia.com/Control/operativo/"+response.data.licenciaA+"?"+new Date().getTime()+"' class='img-responsive'>");                    
+                }
+                if(response.data.licenciaB != null)
+                {
+                    $("#licenciaB").html("<img style='width:50%; height:50%;' id='img_licenciaB' src='http://app.aoacolombia.com/Control/operativo/"+response.data.licenciaB+"?"+new Date().getTime()+"' class='img-responsive'>");;                    
+                }
+                if(response.data.cedulaA != null)
+                {
+                    $("#cedulaA").html("<img style='width:50%; height:50%;' id='img_cedulaA' src='http://app.aoacolombia.com/Control/operativo/"+response.data.cedulaA+"?"+new Date().getTime()+"' class='img-responsive'>");;                    
+                }
+                if(response.data.cedulaB != null)
+                {
+                    $("#cedulaB").html("<img style='width:50%; height:50%;' id='id='img_cedulaB' src='http://app.aoacolombia.com/Control/operativo/"+response.data.cedulaB+"?"+new Date().getTime()+"' class='img-responsive'>");;                    
+                }
+            });
         }
         
         $scope.datos_devolucion_save = function(){
@@ -61,11 +105,26 @@ app.controller('WaController',['$scope','WaService','$window',function($scope,Wa
                     return false;
             }
             console.log($scope.warranty);
-             var request = WaService.devol_data($scope.warranty);
+            if($scope.type_warranty == "credito")
+            {
+                var request = WaService.credit_warranty($scope.warranty);
 		request.then(function(response){
-			
-			
+                    alert("datos de garantia guardados");
 		});
+            }
+            if($scope.type_warranty == "efectivo")
+            {                
+                var request = WaService.consigment_warranty($scope.warranty);
+		request.then(function(response){
+                    alert("datos de garantia guardados");
+		});
+            }
+            if($scope.type_warranty == "riesgo")
+            {
+                
+                //
+            }
+             
         }
 	
         $scope.verifywarranty = function(tipo)
@@ -132,9 +191,17 @@ app.controller('WaController',['$scope','WaService','$window',function($scope,Wa
                         alert("Seleccione el mes de expiración de la tarjeta de credito");
                         return false;
                 }
-                alert("Proceda a ingresar los datos de devolución para empezar su proceso de aprobeación de garantia");
-                
+                alert("Proceda a ingresar los datos de devolución para empezar su proceso de aprobación de garantia");               
                 $("#myModal").modal('hide');
+                var one = true;
+                
+                setInterval(                   
+                    function(){  
+                        if(one == true)
+                        {$("input[name='devol_cuenta_bancaria']").focus(); one=false}  },
+                    1000
+                  );
+                 
             }
             if(tipo == "efectivo")
             {
@@ -147,6 +214,17 @@ app.controller('WaController',['$scope','WaService','$window',function($scope,Wa
                         return false;
                 }
                     $("#myModal2").modal('hide');
+                    
+                alert("Proceda a ingresar los datos de devolución para empezar su proceso de aprobación de garantia");               
+                $("#myModal").modal('hide');
+                var one = true;
+                
+                setInterval(                   
+                    function(){  
+                        if(one == true)
+                        {$("input[name='devol_cuenta_bancaria']").focus(); one=false}  },
+                    1000
+                  );
             }
             if(tipo == "riesgo")
             {
@@ -159,7 +237,13 @@ app.controller('WaController',['$scope','WaService','$window',function($scope,Wa
                         return false;
                 }	
               
-                    $("#myModal3").modal('hide');		
+                $("#myModal3").modal('hide');
+                alert("Garantia guardada");
+                
+                var request = WaService.risk_warranty($scope.warranty);
+		request.then(function(response){
+                    alert("datos de garantia guardados");
+		});
 
             }
             console.log($scope.warranty);
@@ -167,6 +251,13 @@ app.controller('WaController',['$scope','WaService','$window',function($scope,Wa
             
         }
         
+        $scope.upload_licencia_conduccion = function()
+        {
+           
+             var request = WaService.consigment_warranty($scope.ufile);
+             
+
+        }
         
 
 	function verify_destroy_session(str)

@@ -7,5 +7,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <jsp:include page="layout/header.jsp" />
+    <% session.invalidate(); %>
     <jsp:include page="layout/login.jsp" />
 <jsp:include page="layout/footer.jsp" />

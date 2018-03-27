@@ -18,10 +18,10 @@ public class autorizacion extends Entity_Model{
         setTable("sin_autor");
     }
 
-    public String Siniestro;
+    
 
     public String getSiniestro() {
-        return Siniestro;
+        return siniestro;
     }
 
     public String getNombre() {
@@ -120,6 +120,8 @@ public class autorizacion extends Entity_Model{
         return fecha_proceso;
     }
        
+        //public String id;
+        public String siniestro;
 	public String nombre;
 	public String identificacion;
 	public String numero;

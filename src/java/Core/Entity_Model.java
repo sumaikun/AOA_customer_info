@@ -11,6 +11,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import Core.SQLMANAGER;
 import java.sql.SQLException;
+import java.util.Iterator;
 import java.util.Map;
 
 
@@ -112,8 +113,14 @@ public abstract class Entity_Model {
                 String property_method =  "get"+field.getName().substring(0, 1).toUpperCase() + field.getName().substring(1);
                 Method method = object.getClass().getMethod(property_method,null);
                 String property = (String) method.invoke(object, null);
-                sql +=  field.getName()+" = '"+property+"',";  
-            
+                if(property == null)              
+                {
+                    sql +=  field.getName()+" = "+property+",";  
+                }
+                else
+                {
+                    sql +=  field.getName()+" = '"+property+"',";  
+                }           
         }
         sql = sql.substring(0, sql.length()-1);
         
@@ -144,7 +151,14 @@ public abstract class Entity_Model {
             String property_method =  "get"+field.getName().substring(0, 1).toUpperCase() + field.getName().substring(1);
             Method method = object.getClass().getMethod(property_method,null);
             String property = (String) method.invoke(object, null);
-            sql +=  field.getName()+" = '"+property+"',";                                   
+            if(property == null)              
+            {
+                sql +=  field.getName()+" = "+property+",";  
+            }
+            else
+            {
+                sql +=  field.getName()+" = '"+property+"',";  
+            }                                    
         }
         sql = sql.substring(0, sql.length()-1);
         
@@ -159,12 +173,26 @@ public abstract class Entity_Model {
         //System.out.println(sql);
     }
     
-    public void map_to_object(Map<String, String> map)
+    public void map_to_object(Map<String, String> map) throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException
     {
-    
+        String data = "";
+        Object object = this;
+        Iterator<Map.Entry<String, String>> it = map.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<String, String> pair = it.next();
+            data += pair.getKey() +" "+ pair.getValue()+" "; 
+            if(doesObjectContainField(object,pair.getKey()))
+            {
+                Field field = object.getClass().getDeclaredField(pair.getKey());
+                field.set(object, pair.getValue());
+            }
+            
+            //System.out.println("new value "+object.getClass().getDeclaredField(pair.getKey()));
+        }     
+        System.out.println(data);
     }
     
-     public static void main(String[] args) {
+    public static void main(String[] args) {
          
          inspect(Entity_Model.class);
     }
@@ -178,5 +206,15 @@ public abstract class Entity_Model {
                 field.getName()
             );
         }
+    }
+    
+    public boolean doesObjectContainField(Object object, String fieldName) {
+        Class<?> objectClass = object.getClass();
+        for (Field field : objectClass.getFields()) {
+            if (field.getName().equals(fieldName)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -37,6 +37,10 @@ public class UserController {
     
     public void Userinfo(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws IOException, ServletException, SQLException 
     {
+        if(session.getAttribute("Siniestro")==null)
+        {
+            response.sendRedirect("index.jsp");
+        }
         //System.out.println("got to user info");
         String query = "select distinct departamento from ciudad order by departamento";
         List<Map<String, String>>  departamentos = this.manager.ExecuteSql(query).fetch_query(null).get_rows();
@@ -65,6 +69,10 @@ public class UserController {
     
     public void user_data(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws SQLException, ServletException, IOException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InvocationTargetException
     {
+        if(session.getAttribute("Siniestro")==null)
+        {
+          response.sendRedirect("index.jsp");
+        }
         String identificacion = request.getParameter("identificacion");        
 	String lugar_expedicion = request.getParameter("lugar_expedicion");
 	String nombres = request.getParameter("nombres");
