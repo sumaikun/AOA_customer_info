@@ -29,7 +29,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-@WebServlet(urlPatterns = {"/login", "/test","/User","/get_user_info","/get_by_code","/get_ciudades","/user_data","/Warranty_info","/credit_warranty","/devol_data","/consignment_warranty","/risk_warranty","/logout"})
+@WebServlet(urlPatterns = {"/login", "/test","/User","/get_user_info","/get_by_code","/get_ciudades","/user_data","/Warranty_info","/credit_warranty","/devol_data","/consignment_warranty","/risk_warranty","/logout","/index"})
 public class ServletDispatcher extends HttpServlet
 {
     private SiniestroInfoController siniestrosinfocontroller ;
@@ -54,8 +54,13 @@ public class ServletDispatcher extends HttpServlet
         
         System.out.println(servletPath);
         if (servletPath.equals("/login")) {
-            this.siniestrosinfocontroller.login(request,response,session);
-            //response.sendRedirect("index.jsp");
+            
+            try {
+                this.siniestrosinfocontroller.login(request,response,session);
+                //response.sendRedirect("index.jsp");
+            } catch (SQLException ex) {
+                Logger.getLogger(ServletDispatcher.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         if (servletPath.equals("/get_user_info")) {
             try {
@@ -198,6 +203,10 @@ public class ServletDispatcher extends HttpServlet
         if (servletPath.equals("/logout")) {
            session.invalidate();
            response.sendRedirect("index.jsp");
+        }
+        if (servletPath.equals("/index")) {           
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("index.jsp");
+            requestDispatcher.forward(request, response);
         }
      
         

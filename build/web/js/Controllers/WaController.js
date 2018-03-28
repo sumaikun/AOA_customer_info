@@ -110,6 +110,8 @@ WaController = app.controller('WaController',['$scope','WaService','$window',fun
                 var request = WaService.credit_warranty($scope.warranty);
 		request.then(function(response){
                     alert("datos de garantia guardados");
+                    $("#btn_efectivo").remove();
+                    $("#btn_riesgo").remove();
 		});
             }
             if($scope.type_warranty == "efectivo")
@@ -117,6 +119,8 @@ WaController = app.controller('WaController',['$scope','WaService','$window',fun
                 var request = WaService.consigment_warranty($scope.warranty);
 		request.then(function(response){
                     alert("datos de garantia guardados");
+                    $("#btn_credito").remove();
+                    $("#btn_riesgo").remove();
 		});
             }
             if($scope.type_warranty == "riesgo")
@@ -243,6 +247,9 @@ WaController = app.controller('WaController',['$scope','WaService','$window',fun
                 var request = WaService.risk_warranty($scope.warranty);
 		request.then(function(response){
                     alert("datos de garantia guardados");
+                    $("#btn_credito").remove();
+                    $("#btn_efectivo").remove();
+                    $("#div_devoluciones").remove();
 		});
 
             }

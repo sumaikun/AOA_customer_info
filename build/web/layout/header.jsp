@@ -16,7 +16,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
   <title>Sistemas de clientes AOA</title>
-
+  <link rel="shortcut icon" type="image/png" href="http://www.aoacolombia.com/assets/img/logo_footer.png" />
   <!--Angular-->
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js" ></script>
   <script src="js/Modules/app.js"></script>
@@ -91,7 +91,7 @@
 <body class="fixed-nav sticky-footer bg-dark" id="page-top" style="background-color: white !important;">
   <!-- Navigation-->
   <nav style="background-color: #0B610B!important;" class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
-    <a class="navbar-brand" href="login">AOA administración operativa Automotriz</a>
+    <a class="navbar-brand" href="index">AOA administración operativa Automotriz</a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -116,6 +116,6 @@
 <c:if test="${ error_message != null }">
     <div class="alert alert-warning alert-dismissible" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    <strong>Lo sentimos ${ error_message  } por favor comuniquese al 018000186262 o en bogota al 8837069</strong>  
+    <strong>Lo sentimos ${ error_message  } por favor comuniquese al 018000186262 o en Bogotá al 8837069</strong>  
     </div>
 </c:if>

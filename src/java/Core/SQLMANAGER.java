@@ -42,7 +42,9 @@ public class SQLMANAGER {
     public SQLMANAGER ExecuteSql(String query) throws SQLException
     {   
         connect_db();
-        System.out.println(query);      
+        System.out.println(query);  
+        
+        
         this.stmt = this.con.createStatement();
        // this.result = this.stmt.executeQuery(query);
        if(query.toUpperCase().contains("CREATE")||query.toUpperCase().contains("UPDATE")||query.toUpperCase().contains("DELETE")||query.toUpperCase().contains("INSERT"))

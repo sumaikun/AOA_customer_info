@@ -22,17 +22,17 @@
                 </div>
             </div>
             <c:if test="${ Aseguradora.get('garantia_consignada') > 0 }">
-                <div  ng-init ="garantia_consignada()" class="col-lg-4 col-md-4"><button data-toggle="modal" data-target="#myModal" class="btn btn-primary btn-lg">Tarjeta de crédito</button></div>
+                <div  ng-init ="garantia_consignada()" class="col-lg-4 col-md-4"><button id="btn_credito" data-toggle="modal" data-target="#myModal" class="btn btn-primary btn-lg">Tarjeta de crédito</button></div>
             </c:if>
             <c:if test="${ Aseguradora.get('valor_no_reembols') > 0 }">    
-                <div ng-init="valor_no_reembol()" class="col-lg-4 col-md-4"><button data-toggle="modal" data-target="#myModal2" class="btn btn-primary btn-lg">Consignación en efectivo</button></div>
+                <div ng-init="valor_no_reembol()" class="col-lg-4 col-md-4"><button id="btn_efectivo" data-toggle="modal" data-target="#myModal2" class="btn btn-primary btn-lg">Consignación en efectivo</button></div>
             </c:if>
             <c:if test="${ Aseguradora.get('garantia') > 0 }">    
-                <div ng-init="garantia_credito()" class="col-lg-4 col-md-4"><button data-toggle="modal" data-target="#myModal3" class="btn btn-primary btn-lg">Todo riesgo no reembolsable</button></div>       
+                <div ng-init="garantia_credito()" class="col-lg-4 col-md-4"><button id="btn_riesgo" data-toggle="modal" data-target="#myModal3" class="btn btn-primary btn-lg">Todo riesgo no reembolsable</button></div>       
             </c:if>    
         </div>
     
-    <div class="row">
+    <div class="row" id="div_devoluciones">
         <div class="col-lg-12">                 
             <div class="intro-text">
                     <hr class="star-light">  
@@ -172,7 +172,7 @@
              
            <div class="modal-body">
                Valor: $ ${Aseguradora.get("garantia")}
-             <form ng-submit="Verify_warranty('credito')">		     
+          		     
                  <div class="form-group">
                    <label class="col-sm-3 control-label" for="card-number">Numero de Tarjeta</label>
                    <div class="col-sm-9">
@@ -253,7 +253,7 @@
                                  <select class="form-control" ng-model="warranty.year_expi" name="year_expi">
                                      <option value="2017">2017</option>
                                      <option value="2018">2018</option>
-                                     <option value="2018">2019</option>
+                                     <option value="2019">2019</option>
                                      <option value="2020">2020</option>
                                      <option value="2021">2021</option>
                                      <option value="2022">2022</option>
@@ -281,7 +281,7 @@
                  <div class="form-group col-sm-3">
                      <input  type="submit" class="btn btn-success" ng-click="verifywarranty('credito')"  value="Realizar garantia por tarjeta credito">
                  </div>
-             </form>		  		 
+       		  		 
            </div>
            <div class="modal-footer">      	
              <button type="button" class="btn btn-default" data-dismiss="modal">cerrar</button>
@@ -305,7 +305,7 @@
            </div>
            <div class="modal-body">
                Valor: $ ${Aseguradora.get("garantia_consignada")}
-             <form class="form-horizontal" ng-submit="Verify_warranty('efectivo')" role="form">
+             
                  <div class="form-group">
                      <label class="col-sm-6 control-label" for="card-holder-name">Numero de comprobante de consignación</label>
                          <div class="col-sm-9">
@@ -321,7 +321,7 @@
                  <div class="form-group col-sm-3">
                      <button type="submit" class="btn btn-submit" ng-click="verifywarranty('efectivo')">Realizar garantia por consignación</button>
                  </div>
-             </form>		  
+             		  
            </div>
            <div class="modal-footer">      	
              <button type="button" class="btn btn-default" data-dismiss="modal">cerrar</button>
@@ -347,7 +347,7 @@
            </div>
            <div class="modal-body">
                Valor: $ ${Aseguradora.get('valor_no_reembols')}
-             <form class="form-horizontal" onsubmit="Verify_warranty('efectivo')" role="form">	
+             
                  <div class="form-group">
                      <label class="col-sm-6 control-label" for="card-holder-name">Numero de comprobante de consignación</label>
                      <div class="col-sm-9">
@@ -363,7 +363,7 @@
                  <div class="form-group col-sm-3">
                      <button type="submit" class="btn btn-submit" ng-click="verifywarranty('riesgo')">Realizar garantia todo riesgo</button>
                  </div>
-             </form>
+             
            </div>
            <div class="modal-footer">      	
              <button type="button" class="btn btn-default" data-dismiss="modal">cerrar</button>

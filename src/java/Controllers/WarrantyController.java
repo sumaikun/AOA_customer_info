@@ -252,8 +252,8 @@ public class WarrantyController {
                 autorizacion.siniestro = Siniestro.get("id");
                 autorizacion.nombre = Usuario.get("nombre");
                 autorizacion.identificacion = Usuario.get("identificacion");               
-                autorizacion.fecha_consignacion = fieldsJson.getString("fecha_consignacion").split("T")[0];
-                autorizacion.numero_consignacion = fieldsJson.getString("comprobante_consignacion");
+                autorizacion.fecha_consignacion = fieldsJson.getString("riesgo_fecha").split("T")[0];
+                autorizacion.numero_consignacion = fieldsJson.getString("riesgo_consignacion");
                 autorizacion.franquicia = "6";
                 autorizacion.fecha_solicitud = now;               
                 

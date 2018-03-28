@@ -4,9 +4,16 @@
     Author     : JVega
 --%>
 
+<%@page import="java.net.InetAddress"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-
+           <%
+               InetAddress ip;
+               String hostname;
+               ip = InetAddress.getLocalHost();
+               hostname = ip.getHostName();      
+               
+           %>
 
 
   <meta charset="utf-8">
@@ -22,9 +29,14 @@
   <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
   <!-- Custom styles for this template-->
   <link href="css/sb-admin.css" rel="stylesheet">
-  <script src='https://www.google.com/recaptcha/api.js'></script>
-
-
+  <% if(hostname == "sac.aoacolombia.com"){  %>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <script>
+          function onSubmit(token) {
+            document.getElementById("login_form").submit();
+          }
+    </script>
+ <% } %>
 
   <style>
     .btn:hover{
@@ -55,8 +67,13 @@
                document.getElementById("login_form").submit();
              }
            </script>
-
-
+           
+          
+           <% if(!hostname.equals("sac.aoacolombia.com"))
+               {  %>
+           <h2><% out.print(hostname); %></h2>
+           <% } %>
+       
           <form method="post" id="login_form" action="login">
             <div class="form-group">
               <label for="exampleInputEmail1">Placa de Vehiculo</label>
@@ -66,9 +83,11 @@
               <label for="exampleInputPassword1">Telefono registrado</label>
               <input style=" text-align: center !important;" class="form-control" id="exampleInputPassword1" name="celphone" type="password" placeholder="3004775262" required>
             </div>
-
-             <button class="btn log_btn  btn-block"  type="submit">Entrar</button>
-
+            <% if(hostname.equals("sac.aoacolombia.com")){  %> 
+                <button class="btn log_btn  btn-block g-recaptcha" data-sitekey="6LfQe0kUAAAAAIEhjVXl923H36LApinBbkz-eXww" data-callback='onSubmit'  type="submit">Entrar</button>
+             <% } else{ %>
+                <button class="btn log_btn  btn-block"   type="submit">Entrar</button>
+             <% }  %>
           </form>
 
         </div>

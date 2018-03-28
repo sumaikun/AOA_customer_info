@@ -13,13 +13,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.TextStyle;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -42,7 +36,7 @@ public class SiniestroInfoController {
       
     }
     
-    public void login(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws IOException, ServletException 
+    public void login(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws IOException, ServletException,SQLException 
     {
       
         String placa = request.getParameter("placa");
